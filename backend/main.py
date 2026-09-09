@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from video_service import create_video_job
+from video_service import create_video_job, get_video_job
 
 
 app = FastAPI(
@@ -42,5 +42,15 @@ def create_video(request: VideoRequest):
         request.language,
         request.style
     )
+
+    return job
+@app.get("/video-status/{job_id}")
+def video_status(job_id: str):
+    job = get_video_job(job_id)
+
+    if not job:
+        return {
+            "error": "Job not found"
+        }
 
     return job
