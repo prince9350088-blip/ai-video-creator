@@ -1,15 +1,22 @@
 import uuid
 
+jobs = {}
+
 
 def create_video_job(prompt, duration, language, style):
     job_id = str(uuid.uuid4())
 
-    return {
+    jobs[job_id] = {
         "job_id": job_id,
         "status": "queued",
         "prompt": prompt,
         "duration": duration,
         "language": language,
-        "style": style,
-        "message": "Video generation job created successfully"
+        "style": style
     }
+
+    return jobs[job_id]
+
+
+def get_video_job(job_id):
+    return jobs.get(job_id)
